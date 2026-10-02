@@ -28,6 +28,10 @@
   .btn-danger { background: #f44336; color: white; }
   .btn-add { background: #e3f2fd; color: #1976d2; padding: 10px; font-size: 14px; width: 100%; margin-top: 10px; }
 
+  .status { display: inline-block; padding: 3px 10px; border-radius: 12px; font-size: 12px; font-weight: 600; margin-left: 8px; }
+  .status.view { background: #e0e0e0; color: #555; }
+  .status.edit { background: #c8e6c9; color: #2e7d32; }
+
   .table-wrap { background: white; border-radius: 10px; overflow-x: auto; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
   table { width: 100%; border-collapse: collapse; min-width: 700px; }
   th { background: #1a1a1a; color: white; padding: 10px 8px; text-align: left; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
@@ -66,42 +70,70 @@
   .modal h3 { margin-bottom: 15px; color: #1976d2; display: flex; justify-content: space-between; align-items: center; font-size: 1.1em; }
   .modal-close { background: none; border: none; font-size: 26px; cursor: pointer; color: #999; line-height: 1; padding: 0 5px; }
 
-  .files-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 10px; margin-bottom: 15px; }
-  .file-card { position: relative; background: #f5f5f5; border-radius: 8px; padding: 8px; text-align: center; overflow: hidden; }
-  .file-card .thumb { width: 100%; height: 80px; object-fit: cover; border-radius: 6px; margin-bottom: 5px; cursor: pointer; background: #ddd; }
-  .file-card .file-icon { width: 100%; height: 80px; display: flex; align-items: center; justify-content: center; font-size: 40px; background: #e3f2fd; border-radius: 6px; margin-bottom: 5px; }
-  .file-card .name { font-size: 11px; font-weight: 600; color: #333; word-break: break-word; line-height: 1.2; max-height: 28px; overflow: hidden; }
-  .file-card a { text-decoration: none; color: inherit; display: block; }
-  .file-card .del-file { position: absolute; top: 4px; right: 4px; background: rgba(244,67,54,0.9); color: white; border: none; border-radius: 50%; width: 22px; height: 22px; cursor: pointer; font-size: 14px; font-weight: bold; line-height: 1; display: flex; align-items: center; justify-content: center; }
+  .empty-files { text-align: center; color: #999; padding: 20px; font-style: italic; font-size: 14px; }
 
   .add-section { background: #f8f9ff; border-radius: 10px; padding: 12px; margin-top: 12px; border: 2px dashed #c5cae9; }
   .add-section h4 { font-size: 13px; color: #3f51b5; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
-  .tab-buttons { display: flex; gap: 5px; margin-bottom: 10px; background: #e8eaf6; padding: 4px; border-radius: 8px; }
-  .tab-buttons button { flex: 1; padding: 8px; border: none; background: transparent; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; color: #5c6bc0; }
-  .tab-buttons button.active { background: white; color: #3f51b5; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-  .tab-content { display: none; }
-  .tab-content.active { display: block; }
-  .tab-content input[type="text"], .tab-content input[type="url"] { width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 8px; font-size: 14px; font-family: inherit; outline: none; margin-bottom: 8px; }
-  .tab-content input:focus { border-color: #2196f3; }
+  .add-section input { width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 8px; font-size: 14px; font-family: inherit; outline: none; margin-bottom: 8px; }
+  .add-section input:focus { border-color: #2196f3; }
 
-  .file-input-wrap { position: relative; margin-bottom: 10px; }
-  .file-input-wrap input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
-  .file-input-btn { display: block; padding: 15px; background: white; border: 2px dashed #7986cb; border-radius: 8px; text-align: center; color: #3f51b5; font-weight: 600; font-size: 14px; cursor: pointer; }
+  .save-btn { width: 100%; padding: 12px; background: #4caf50; color: white; border: none; border-radius: 8px; font-size: 14px; font-weight: 700; cursor: pointer; }
+  .save-btn:hover { background: #45a049; }
 
-  .preview-wrap { margin-top: 10px; text-align: center; }
-  .preview-wrap img { max-width: 100%; max-height: 200px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
-
-  .save-btn { width: 100%; padding: 12px; background: #4caf50; color: white; border: none; border-radius: 8px; font-size: 14px; font-weight: 700; cursor: pointer; margin-top: 8px; }
-  .save-btn:disabled { background: #ccc; cursor: not-allowed; }
-  .empty-files { text-align: center; color: #999; padding: 20px; font-style: italic; font-size: 14px; }
+  .file-card-link {
+    position: relative;
+    background: #f5f5f5;
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.2s;
+  }
+  .file-card-link:hover { background: #e8eaf6; }
+  .file-card-link a {
+    flex: 1;
+    text-decoration: none;
+    color: #333;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    word-break: break-all;
+  }
+  .file-card-link .file-icon {
+    font-size: 22px;
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #e3f2fd;
+    border-radius: 8px;
+  }
+  .file-card-link .file-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1976d2;
+  }
+  .file-card-link .del-file {
+    background: #ffebee;
+    color: #c62828;
+    border: none;
+    border-radius: 50%;
+    width: 26px;
+    height: 26px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: bold;
+    flex-shrink: 0;
+  }
+  .file-card-link .del-file:hover { background: #ffcdd2; }
 
   .hint { text-align: center; color: #888; font-size: 12px; margin-top: 15px; }
   .toast { position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%) translateY(100px); background: #333; color: white; padding: 12px 24px; border-radius: 30px; opacity: 0; transition: all 0.3s; z-index: 2000; font-size: 14px; max-width: 90%; text-align: center; }
   .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
-
-  .lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 3000; align-items: center; justify-content: center; padding: 20px; }
-  .lightbox.show { display: flex; }
-  .lightbox img { max-width: 100%; max-height: 100%; border-radius: 8px; }
 
   @media (max-width: 600px) {
     body { padding: 8px; }
@@ -121,6 +153,7 @@
       <button class="quick-btn" onclick="jumpDays(1)">Завтра</button>
       <button class="quick-btn" onclick="jumpDays(2)">+2 дня</button>
     </div>
+    <span id="statusBadge" class="status view">🔒 Просмотр</span>
   </div>
 
   <div class="day-label" id="dayLabel"></div>
@@ -153,52 +186,40 @@
 
   <button class="btn btn-add" id="addRowBtn" onclick="addRow()" style="display:none;">➕ Добавить строку</button>
 
-  <p class="hint">💡 Всё сохраняется в браузере. Через 📎 можно добавлять ссылки и фото</p>
+  <p class="hint">💡 Все изменения видны всем. Через 📎 можно прикреплять ссылки на файлы</p>
 </div>
 
-<!-- Модальное окно файлов -->
 <div class="modal-overlay" id="fileModal" onclick="if(event.target===this) closeFileModal()">
   <div class="modal">
-    <h3><span>📎 Файлы и фото к уроку</span><button class="modal-close" onclick="closeFileModal()">×</button></h3>
+    <h3><span>📎 Файлы к уроку</span><button class="modal-close" onclick="closeFileModal()">×</button></h3>
     <div id="fileList"></div>
     <div class="add-section" id="addSection">
-      <h4>➕ Добавить</h4>
-      <div class="tab-buttons">
-        <button class="active" onclick="switchFileTab('link', this)">🔗 Ссылка</button>
-        <button onclick="switchFileTab('photo', this)">📷 Фото</button>
-      </div>
-      <div class="tab-content active" id="tab-link">
-        <input type="text" id="fileName" placeholder="Название (например: Презентация)">
-        <input type="url" id="fileUrl" placeholder="Ссылка https://...">
-        <button class="save-btn" onclick="addLinkFile()">➕ Добавить ссылку</button>
-      </div>
-      <div class="tab-content" id="tab-photo">
-        <div class="file-input-wrap">
-          <input type="file" id="photoInput" accept="image/*" onchange="handlePhoto(event)">
-          <div class="file-input-btn">📷 Выбрать фото (камера или галерея)</div>
-        </div>
-        <input type="text" id="photoName" placeholder="Название фото (необязательно)">
-        <div class="preview-wrap" id="photoPreview"></div>
-        <button class="save-btn" id="savePhotoBtn" onclick="addPhotoFile()" disabled>💾 Сохранить фото</button>
-      </div>
+      <h4>➕ Добавить файл</h4>
+      <input type="text" id="fileName" placeholder="Название (например: Презентация к уроку)">
+      <input type="url" id="fileUrl" placeholder="Ссылка https://disk.yandex.ru/... или https://drive.google.com/...">
+      <button class="save-btn" onclick="addLinkFile()">➕ Добавить ссылку</button>
+      <p style="font-size:11px;color:#999;margin-top:8px;text-align:center;">
+        💡 Загрузи файл на Яндекс.Диск или Google Drive → скопируй ссылку → вставь сюда
+      </p>
     </div>
   </div>
 </div>
 
-<div class="lightbox" id="lightbox" onclick="this.classList.remove('show')"><img id="lightboxImg" src=""></div>
 <div class="toast" id="toast"></div>
 
 <script>
 // ==================== КОНФИГ ====================
-const STORAGE_KEY = 'rasp_local_v2';
-const PASSWORD = '1234'; // ← поменяй на свой
+const JSONBIN_BIN_ID = '6abf7156ffd5d16053455f3a';
+const JSONBIN_KEY    = '$2a$10$CCKHnFj4se1MLUZunO02rea9BliVKGKGzUIFuZhnw4.CzAhQeAkVW';
+const PASSWORD       = '1234';
+const JSONBIN_URL    = 'https://api.jsonbin.io/v3/b/' + JSONBIN_BIN_ID;
 
 // ==================== СОСТОЯНИЕ ====================
 let editMode = false;
 let currentDate = toLocalISO(new Date());
 let data = {};
 let currentFileRowIdx = null;
-let pendingPhoto = null;
+let saveTimer = null;
 
 const DAY_NAMES = ['Воскресенье','Понедельник','Вторник','Среда','Четверг','Пятница','Суббота'];
 
@@ -224,20 +245,52 @@ function ensureDay(dateStr) {
   data[dateStr].forEach(r => { if (!r.files) r.files = []; });
 }
 
-// ==================== ЗАГРУЗКА / СОХРАНЕНИЕ ====================
-function load() {
+// ==================== ЗАГРУЗКА ====================
+async function loadFromServer() {
   try {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    data = saved ? JSON.parse(saved) : {};
-  } catch(e) { data = {}; }
+    const res = await fetch(JSONBIN_URL + '/latest', {
+      headers: { 'X-Master-Key': JSONBIN_KEY }
+    });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const json = await res.json();
+    const rec = json.record;
+    data = (rec && rec.schedule) ? rec.schedule : {};
+  } catch(e) {
+    console.error(e);
+    showToast('⚠️ Не удалось загрузить');
+    try {
+      const local = localStorage.getItem('rasp_local_v4');
+      if (local) data = JSON.parse(local);
+    } catch(_) { data = {}; }
+  }
   ensureDay(currentDate);
   render();
 }
+
+// ==================== СОХРАНЕНИЕ ====================
 function save() {
   try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    localStorage.setItem('rasp_local_v4', JSON.stringify(data));
+  } catch(e) {}
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(pushToServer, 800);
+}
+
+async function pushToServer() {
+  try {
+    const res = await fetch(JSONBIN_URL, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Master-Key': JSONBIN_KEY
+      },
+      body: JSON.stringify({ schedule: data })
+    });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    console.log('✅ Сохранено');
   } catch(e) {
-    showToast('⚠️ Не удалось сохранить (переполнено)');
+    console.error(e);
+    showToast('⚠️ Не сохранилось на сервер');
   }
 }
 
@@ -272,6 +325,10 @@ function render() {
   document.getElementById('dayLabel').textContent = '📅 ' + getDayName(currentDate) + ', ' + formatDate(currentDate);
   document.getElementById('dateInput').value = currentDate;
   document.getElementById('addRowBtn').style.display = editMode ? 'block' : 'none';
+
+  const badge = document.getElementById('statusBadge');
+  badge.textContent = editMode ? '✏️ Редактирование' : '🔒 Просмотр';
+  badge.className = 'status ' + (editMode ? 'edit' : 'view');
 
   const btn = document.getElementById('editBtn');
   btn.textContent = editMode ? '✅ Готово' : '✏️ Редактировать';
@@ -312,7 +369,7 @@ function addRow() {
 }
 function delRow(idx) {
   if (!editMode) return;
-  if (!confirm('Удалить эту строку?')) return;
+  if (!confirm('Удалить строку?')) return;
   data[currentDate].splice(idx, 1);
   save(); render();
 }
@@ -351,27 +408,20 @@ function copyLink() {
     .catch(() => prompt('Скопируй:', url));
 }
 
-// ==================== ФАЙЛЫ И ФОТО ====================
+// ==================== ФАЙЛЫ (ССЫЛКИ) ====================
 function openFileModal(idx) {
   currentFileRowIdx = idx;
   const row = data[currentDate][idx];
   if (!row.files) row.files = [];
-  pendingPhoto = null;
-  document.getElementById('photoPreview').innerHTML = '';
-  document.getElementById('photoName').value = '';
-  document.getElementById('photoInput').value = '';
-  document.getElementById('savePhotoBtn').disabled = true;
   document.getElementById('fileName').value = '';
   document.getElementById('fileUrl').value = '';
   document.getElementById('addSection').style.display = editMode ? 'block' : 'none';
-  switchFileTab('link', document.querySelector('.tab-buttons button'));
   renderFileList();
   document.getElementById('fileModal').classList.add('show');
 }
 function closeFileModal() {
   document.getElementById('fileModal').classList.remove('show');
   currentFileRowIdx = null;
-  pendingPhoto = null;
 }
 function renderFileList() {
   const row = data[currentDate][currentFileRowIdx];
@@ -380,32 +430,19 @@ function renderFileList() {
     list.innerHTML = '<div class="empty-files">📭 Пока нет файлов</div>';
     return;
   }
-  list.innerHTML = '<div class="files-grid"></div>';
-  const grid = list.querySelector('.files-grid');
+  list.innerHTML = '';
   row.files.forEach((f, i) => {
     const card = document.createElement('div');
-    card.className = 'file-card';
-    if (f.type === 'photo' && f.dataUrl) {
-      card.innerHTML = `
-        <img class="thumb" src="${f.dataUrl}" onclick="showLightbox('${f.dataUrl}')">
-        <div class="name">${esc(f.name)}</div>
-        ${editMode ? `<button class="del-file" onclick="removeFile(${i})">×</button>` : ''}`;
-    } else {
-      card.innerHTML = `
-        <a href="${esc(f.url)}" target="_blank" rel="noopener">
-          <div class="file-icon">🔗</div>
-          <div class="name">${esc(f.name)}</div>
-        </a>
-        ${editMode ? `<button class="del-file" onclick="removeFile(${i})">×</button>` : ''}`;
-    }
-    grid.appendChild(card);
+    card.className = 'file-card-link';
+    card.innerHTML = `
+      <a href="${esc(f.url)}" target="_blank" rel="noopener">
+        <div class="file-icon">🔗</div>
+        <div class="file-name">${esc(f.name)}</div>
+      </a>
+      ${editMode ? `<button class="del-file" onclick="removeFile(${i})">×</button>` : ''}
+    `;
+    list.appendChild(card);
   });
-}
-function switchFileTab(tab, btn) {
-  document.querySelectorAll('.tab-buttons button').forEach(b => b.classList.remove('active'));
-  if (btn) btn.classList.add('active');
-  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-  document.getElementById('tab-' + tab).classList.add('active');
 }
 function addLinkFile() {
   const name = document.getElementById('fileName').value.trim();
@@ -417,7 +454,7 @@ function addLinkFile() {
   }
   const row = data[currentDate][currentFileRowIdx];
   if (!row.files) row.files = [];
-  row.files.push({ type: 'link', name, url });
+  row.files.push({ name, url });
   save();
   document.getElementById('fileName').value = '';
   document.getElementById('fileUrl').value = '';
@@ -425,57 +462,11 @@ function addLinkFile() {
   render();
   showToast('🔗 Ссылка добавлена');
 }
-function handlePhoto(e) {
-  const file = e.target.files[0];
-  if (!file) return;
-  if (!file.type.startsWith('image/')) { showToast('Выбери картинку'); return; }
-  const reader = new FileReader();
-  reader.onload = function(ev) {
-    const img = new Image();
-    img.onload = function() {
-      const MAX = 800;
-      let w = img.width, h = img.height;
-      if (w > MAX) { h = h * MAX / w; w = MAX; }
-      if (h > MAX) { w = w * MAX / h; h = MAX; }
-      const canvas = document.createElement('canvas');
-      canvas.width = w; canvas.height = h;
-      canvas.getContext('2d').drawImage(img, 0, 0, w, h);
-      const dataUrl = canvas.toDataURL('image/jpeg', 0.7);
-      pendingPhoto = dataUrl;
-      document.getElementById('photoPreview').innerHTML =
-        `<img src="${dataUrl}"><div style="font-size:12px;color:#666;margin-top:5px;">Готово (${Math.round(dataUrl.length/1024)} КБ)</div>`;
-      document.getElementById('savePhotoBtn').disabled = false;
-    };
-    img.src = ev.target.result;
-  };
-  reader.readAsDataURL(file);
-}
-function addPhotoFile() {
-  if (!pendingPhoto) { showToast('Сначала выбери фото'); return; }
-  let name = document.getElementById('photoName').value.trim();
-  if (!name) name = 'Фото ' + new Date().toLocaleTimeString('ru-RU', {hour:'2-digit', minute:'2-digit'});
-  const row = data[currentDate][currentFileRowIdx];
-  if (!row.files) row.files = [];
-  row.files.push({ type: 'photo', name, dataUrl: pendingPhoto });
-  save();
-  pendingPhoto = null;
-  document.getElementById('photoPreview').innerHTML = '';
-  document.getElementById('photoName').value = '';
-  document.getElementById('photoInput').value = '';
-  document.getElementById('savePhotoBtn').disabled = true;
-  renderFileList();
-  render();
-  showToast('📷 Фото добавлено');
-}
 function removeFile(i) {
   if (!editMode) return;
-  if (!confirm('Удалить файл?')) return;
+  if (!confirm('Удалить ссылку?')) return;
   data[currentDate][currentFileRowIdx].files.splice(i, 1);
   save(); renderFileList(); render();
-}
-function showLightbox(src) {
-  document.getElementById('lightboxImg').src = src;
-  document.getElementById('lightbox').classList.add('show');
 }
 
 // ==================== УТИЛИТЫ ====================
@@ -487,11 +478,11 @@ function showToast(msg) {
   t.textContent = msg;
   t.classList.add('show');
   clearTimeout(t._timer);
-  t._timer = setTimeout(() => t.classList.remove('show'), 2000);
+  t._timer = setTimeout(() => t.classList.remove('show'), 2200);
 }
 
 // СТАРТ
-load();
+loadFromServer();
 </script>
 </body>
 </html>
