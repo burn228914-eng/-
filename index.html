@@ -209,7 +209,7 @@
 
 <script>
 // ==================== КОНФИГ ====================
-const JSONBIN_BIN_ID = '6abf01bcac6210605a0ad3f3';
+const JSONBIN_BIN_ID = '6abf7156ffd5d16053455f3a';
 const JSONBIN_KEY    = '$2a$10$CCKHnFj4se1MLUZunO02rea9BliVKGKGzUIFuZhnw4.CzAhQeAkVW';
 const PASSWORD       = '1234';
 const JSONBIN_URL    = 'https://api.jsonbin.io/v3/b/' + JSONBIN_BIN_ID;
@@ -259,7 +259,7 @@ async function loadFromServer() {
     console.error(e);
     showToast('⚠️ Не удалось загрузить');
     try {
-      const local = localStorage.getItem('rasp_local_v4');
+      const local = localStorage.getItem('rasp_local_v5');
       if (local) data = JSON.parse(local);
     } catch(_) { data = {}; }
   }
@@ -270,7 +270,7 @@ async function loadFromServer() {
 // ==================== СОХРАНЕНИЕ ====================
 function save() {
   try {
-    localStorage.setItem('rasp_local_v4', JSON.stringify(data));
+    localStorage.setItem('rasp_local_v5', JSON.stringify(data));
   } catch(e) {}
   clearTimeout(saveTimer);
   saveTimer = setTimeout(pushToServer, 800);
